@@ -27,8 +27,10 @@ class Login extends React.Component {
   }
 
   handleClick(event) {
+    const { email } = this.state;
     event.preventDefault();
-    const { history } = this.props;
+    const { history, stateUserDispatch } = this.props;
+    stateUserDispatch(email);
     console.log(history);
     history.push('/carteira');
   }
@@ -43,13 +45,15 @@ class Login extends React.Component {
       this.setState({
         disabled: false,
       });
-      console.log('email valido e senha valida');
+    } else {
+      this.setState({
+        disabled: true,
+      });
     }
   }
 
   render() {
     const { email, password, disabled } = this.state;
-
     return (
       <div>
         <h3>Login</h3>
@@ -94,7 +98,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Login.propTypes = {
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   stateUserDispatch: PropTypes.func.isRequired,
 };
 

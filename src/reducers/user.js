@@ -1,6 +1,7 @@
+import { LOGIN_USER } from '../actions';
+
 const INITIAL_STATE = {
   email: '',
-  password: '',
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -15,6 +16,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
       ...state,
     });
   }
-}
+};
 
 export default userReducer;

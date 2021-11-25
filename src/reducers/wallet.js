@@ -1,13 +1,13 @@
-const INITIAL_STATE = {
-  currence: '',
-  expense: '',
-};
+// const INITIAL_STATE = {
+//   currence: '',
+//   expense: '',
+// };
 
-function walletReducer(state = INITIAL_STATE, action) {
-  switch ( action.type) {
-  default:
-    return state;
-  }
-}
+// function walletReducer(state = INITIAL_STATE, action) {
+//   switch ( action.type) {
+//   default:
+//     return state;
+//   }
+// }
 
-export default walletReducer;
+// export default walletReducer;
