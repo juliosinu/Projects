@@ -1,13 +1,15 @@
-// const INITIAL_STATE = {
-//   currence: '',
-//   expense: '',
-// };
+import { ACTION_WALLET }
 
-// function walletReducer(state = INITIAL_STATE, action) {
-//   switch ( action.type) {
-//   default:
-//     return state;
-//   }
-// }
+const INITIAL_STATE = {
+  currence: [],
+  expenses: [],
+};
 
-// export default walletReducer;
+function walletReducer(state = INITIAL_STATE, action) {
+  switch ( action.type) {
+  default:
+    return state;
+  }
+}
+
+export default walletReducer;
