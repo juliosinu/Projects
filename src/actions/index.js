@@ -1,7 +1,7 @@
 export const LOGIN_USER = 'LOGIN_USER';
 
-export const loginUser = (payload) => ({ type: LOGIN_USER, payload });
+export const loginUser = (email) => ({ type: LOGIN_USER, email });
 
-export const ACTION_WALLET = 'ACTION_WALLET';
+export const ADD_EXPENSES = 'ADD_EXPENSES';
 
-export const actionWallet = (payload) => ({ type: ACTION_WALLET, payload });
+export const addExpenses = (payload) => ({ type: ADD_EXPENSES, payload });

@@ -57,7 +57,7 @@ class Login extends React.Component {
     return (
       <div>
         <h3>Login</h3>
-        <forms>
+        <form>
           <label htmlFor="email-bar">
             <input
               data-testid="email-input"
@@ -80,7 +80,7 @@ class Login extends React.Component {
               onChange={ this.handleChange }
             />
           </label>
-        </forms>
+        </form>
         <button
           type="submit"
           disabled={ disabled }
