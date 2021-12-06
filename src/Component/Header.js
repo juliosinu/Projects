@@ -10,7 +10,6 @@ class Header extends Component {
 
   renderExpense() {
     const { expenses } = this.props;
-    console.log(expenses, 'ola');
     let result = 0;
     expenses.forEach((expense) => {
       const { ask } = expense.exchangeRates[expense.currency];
