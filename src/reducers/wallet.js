@@ -1,4 +1,4 @@
-import { ADD_EXPENSES } from '../actions';
+import { ADD_EXPENSES, DELETE_EXPENSE } from '../actions';
 import { GET_API } from '../actions/api';
 
 const INITIAL_STATE = {
@@ -18,7 +18,12 @@ function walletReducer(state = INITIAL_STATE, action) {
       ...state,
       expenses: [...state.expenses, action.payload],
     };
-
+  case DELETE_EXPENSE:
+    return {
+      ...state,
+      expenses: state.expenses
+        .filter((expense) => (expense.id !== action.payload)),
+    };
   default:
     return state;
   }

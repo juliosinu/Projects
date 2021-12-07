@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { deleteExpense } from '../actions/index';
 
 class Table extends Component {
   constructor() {
@@ -9,7 +10,7 @@ class Table extends Component {
   }
 
   tableRender() {
-    const { expenses } = this.props;
+    const { expenses, deleteDispatch } = this.props;
     console.log(expenses);
     return expenses.map((expense) => {
       const { id, description, tag, value, method, exchangeRates, currency } = expense;
@@ -31,8 +32,10 @@ class Table extends Component {
           <td>
             <button
               type="button"
+              data-testid="delete-btn"
+              onClick={ () => deleteDispatch(id) }
             >
-              Editar/Excluir
+              Excluir
             </button>
           </td>
         </tr>
@@ -42,20 +45,22 @@ class Table extends Component {
 
   render() {
     return (
-      <div>
-        <table>
-          <th>Descrição</th>
-          <th>Tag</th>
-          <th>Método de pagamento</th>
-          <th>Valor</th>
-          <th>Moeda</th>
-          <th>Câmbio utilizado</th>
-          <th>Valor convertido</th>
-          <th>Moeda de conversão</th>
-          <th>Editar/Excluir</th>
-          { this.tableRender() }
-        </table>
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th>Tag</th>
+            <th>Método de pagamento</th>
+            <th>Valor</th>
+            <th>Moeda</th>
+            <th>Câmbio utilizado</th>
+            <th>Valor convertido</th>
+            <th>Moeda de conversão</th>
+            <th>Editar/Excluir</th>
+            { this.tableRender() }
+          </tr>
+        </thead>
+      </table>
     );
   }
 }
@@ -64,8 +69,13 @@ const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  deleteDispatch: (id) => dispatch(deleteExpense(id)),
+});
+
 Table.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  deleteDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(Table);
+export default connect(mapStateToProps, mapDispatchToProps)(Table);
