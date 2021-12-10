@@ -1,90 +1,85 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { loginUser } from '../actions';
 
 class Login extends React.Component {
   constructor() {
     super();
+
     this.state = {
       email: '',
       password: '',
-      disabled: true,
+      disable: true,
     };
 
+    this.submitForm = this.submitForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.validate = this.validate.bind(this);
+    this.validateLogin = this.validateLogin.bind(this);
+    this.validateEmail = this.validateEmail.bind(this);
+    this.validatePassword = this.validatePassword.bind(this);
   }
 
-  handleChange({ target }) {
-    const { name, value } = target;
-    this.setState({
-      [name]: value,
-    });
-
-    this.validate();
-  }
-
-  handleClick(event) {
-    const { email } = this.state;
+  async submitForm(event) {
     event.preventDefault();
-    const { history, stateUserDispatch } = this.props;
-    stateUserDispatch(email);
-    console.log(history);
+    const { history, changeEmail } = this.props;
+    const { email } = this.state;
+    changeEmail(email);
     history.push('/carteira');
   }
 
-  validate() {
-    const { email, password } = this.state;
-    const NUMERO_MINIMO = 5;
-    console.log(email);
-    //  https://stackoverflow.com/questions/41348459/regex-in-react-email-validation//
-    const regex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
-    if ((regex.test(email)) && (password.length >= NUMERO_MINIMO)) {
-      this.setState({
-        disabled: false,
+  handleChange({ target: { name, value } }) {
+    this.setState({
+      [name]: value,
+    });
+    this.validateLogin();
+  }
+
+  validateEmail() {
+    const { email } = this.state;
+    if (email.includes('@') && email.includes('.com')) {
+      return true;
+    } return false;
+  }
+
+  validatePassword() {
+    const { password } = this.state;
+    const minLength = 6;
+    if (password.length >= minLength - 1) {
+      return true;
+    } return false;
+  }
+
+  validateLogin() {
+    if (this.validateEmail() && this.validatePassword()) {
+      return this.setState({
+        disable: false,
       });
-    } else {
-      this.setState({
-        disabled: true,
-      });
-    }
+    } return this.setState({
+      disable: true,
+    });
   }
 
   render() {
-    const { email, password, disabled } = this.state;
+    const { disable } = this.state;
     return (
       <div>
-        <h3>Login</h3>
-        <form>
-          <label htmlFor="email-bar">
-            <input
-              data-testid="email-input"
-              type="email"
-              id="email-bar"
-              name="email"
-              placeholder="E-mail"
-              value={ email }
-              onChange={ this.handleChange }
-            />
-          </label>
-          <label htmlFor="password-bar">
-            <input
-              data-testid="password-input"
-              type="password"
-              id="password-bar"
-              name="password"
-              placeholder="Senha"
-              value={ password }
-              onChange={ this.handleChange }
-            />
-          </label>
-        </form>
+        <input
+          data-testid="email-input"
+          type="email"
+          name="email"
+          onChange={ this.handleChange }
+        />
+        <input
+          data-testid="password-input"
+          type="password"
+          name="password"
+          onChange={ this.handleChange }
+        />
         <button
           type="submit"
-          disabled={ disabled }
-          onClick={ this.handleClick }
+          onClick={ this.submitForm }
+          disabled={ disable }
         >
           Entrar
         </button>
@@ -93,15 +88,15 @@ class Login extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  stateUserDispatch: (state) => dispatch(loginUser(state)),
-});
-
 Login.propTypes = {
+  changeEmail: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  stateUserDispatch: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  changeEmail: (email) => dispatch(loginUser(email)),
+});
 
 export default connect(null, mapDispatchToProps)(Login);
